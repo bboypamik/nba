@@ -8,4 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 class Team extends Model
 {
     use HasFactory;
+
+
+    public function players()
+    {
+        return $this->hasMany(Player::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function createComment($content)
+    {
+        return $this->comments()->create([
+            'content' => $content
+        ]);
+    }
 }

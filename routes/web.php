@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\TeamController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +17,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [TeamController::class, 'index']);
+Route::get('/', [TeamController::class, 'index'])->middleware('auth')->middleware('auth');
+Route::get('/team/{team}', [TeamController::class, 'show'])->name('team')->middleware('auth');
+
+Route::post('/team/{team}', [CommentController::class, 'store'])->name('comment')->middleware('auth');
+
+Route::get('/players/{player}', [PlayerController::class, 'show'])->name('player')->middleware('auth');
 
 Route::group(['middleware' => 'guest'], function (){
     Route::get('/register', [AuthController::class, 'getRegistrationForm'])->name('register');
